@@ -1,23 +1,25 @@
 <?php
 session_start();
-$bingo[] = $_SESSION;
-echo $bingo;
+
+if (count($_SESSION['bingo']) > 99){
+    session_destroy();
+    session_start();
+}
+
+if(!isset($_SESSION['bingo'])) {
+    $_SESSION['bingo'] = array();
+}else{
+print_r($_SESSION['bingo']);
+}
 
 $number = rand(1, 100);
 
-if (in_array($number,$bingo)) {
-echo 'recommancer';
-}else{
-echo $number;
-$_SESSION = $bingo[]= $number;   
-echo '<br>'.($_SESSION);
+while (in_array($number,$_SESSION['bingo'])) {
+    $number = rand(1, 100);
 }
-
+    echo '<br>';
+    echo $number;
+    array_push ($_SESSION['bingo'], $number);
+    echo '<br>';
+    print_r($_SESSION['bingo']);
 ?>
-
-<!-- 
-    clic lancer un nombre entre 1 et 100
-    enregistrer ce nombre dans un tableau
-    afficher le tableau
-    clic pour rechoisir un nombre au hasard qui ne se trouve pas dans le tableau
- -->
